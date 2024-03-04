@@ -10,17 +10,21 @@ namespace CharmCrab.Charms {
 		private SoulCatcher scatch;
 		private Infested infested;
 		private Cooldown devcd = new Cooldown(10);
-
+		private HealthManager hm;
 
 		public void Disable() {
 			Charms.SpellCollider.Remove(this.gameObject);
 		}
 
 		public void Start() {
-
+			this.hm = this.gameObject.GetComponent<HealthManager>();
 		}
 
 		public void Update() {
+			if (this.hm.hp <= 0) {
+				Destroy(this);
+			}
+
 			this.devcd.Update();
 			if (this.seat != null) {
 				this.seat.Update();
@@ -191,7 +195,7 @@ namespace CharmCrab.Charms {
 		}
 
 		private class Bleed {
-			public readonly float DURATION = 2;
+			public readonly float DURATION = 3;
 
 			private uint stacks;
 			private HealthManager hm;
@@ -215,6 +219,8 @@ namespace CharmCrab.Charms {
 			public bool DealDamage(int mult=1) {
 				if (this.stacks == 0) {
 					return false;
+				} else if (this.hm.hp <= 0) {
+					//return false;
 				}
 
 				//hm.Hit(this.GenHit(stacks));
@@ -237,7 +243,7 @@ namespace CharmCrab.Charms {
 				}
 
 				var t = duration + Time.deltaTime;
-				if (t < DURATION) {
+				if (t <= DURATION) {
 					// Check to see if a full second has passed.
 					if ((int)duration < (int)t) {
 						this.DealDamage();

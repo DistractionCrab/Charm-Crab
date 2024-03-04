@@ -74,10 +74,6 @@ namespace CharmCrab.Enemy {
 					fsm.FsmVariables.FindFsmInt("Rage HP 1").Value *= scale;
 					fsm.FsmVariables.FindFsmInt("Rage HP 2").Value *= scale;
 					fsm.FsmVariables.FindFsmInt("Rage HP 3").Value *= scale;
-
-					Modding.Logger.Log("Rage HP 1 = " + fsm.FsmVariables.FindFsmInt("Rage HP 1").Value);
-					Modding.Logger.Log("Rage HP 2 = " + fsm.FsmVariables.FindFsmInt("Rage HP 2").Value);
-					Modding.Logger.Log("Rage HP 3 = " + fsm.FsmVariables.FindFsmInt("Rage HP 3").Value);
 				} else {
 					StandardHP(hm);
 				}
@@ -90,7 +86,6 @@ namespace CharmCrab.Enemy {
 			{
 				PlayMakerFSM fsm = obj.GetComponent<PlayMakerFSM>();
 				SFCore.Utils.FsmUtil.GetIntVariable(fsm, "damageDealt").Value *= HealthScaleFactor;
-				Modding.Logger.Log("Attemtping Update");
 			}
 		}
 	}
