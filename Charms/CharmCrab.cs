@@ -71,7 +71,7 @@ namespace CharmCrab {
 		public CharmCrab() : base("Charm Crab") { }
 
 		public override string GetVersion() {
-			return "1.0.6";
+			return "1.0.7";
 		}
 
 		public override void Initialize() {
