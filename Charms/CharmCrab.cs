@@ -22,8 +22,6 @@ using SFCore.Utils;
 namespace CharmCrab {
 
 	class CharmCrab : Mod, ILocalSettings<Settings> {
-		
-		
 
 		public static Dictionary<int, NewCharmData> NewCharms = new Dictionary<int, NewCharmData>() {
 			{0, new NewCharmData() {
@@ -64,14 +62,13 @@ namespace CharmCrab {
 		};
 
 		public static Assets Assets;
-		//public static Charms.CharmEffects charmEffects;
 
 		public static Settings Settings = new Settings();
 
 		public CharmCrab() : base("Charm Crab") { }
 
 		public override string GetVersion() {
-			return "1.0.7";
+			return "1.0.8";
 		}
 
 		public override void Initialize() {
