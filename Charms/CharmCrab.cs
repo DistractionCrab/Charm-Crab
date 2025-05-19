@@ -68,7 +68,7 @@ namespace CharmCrab {
 		public CharmCrab() : base("Charm Crab") { }
 
 		public override string GetVersion() {
-			return "1.0.8";
+			return "1.0.9";
 		}
 
 		public override void Initialize() {
@@ -164,6 +164,7 @@ namespace CharmCrab {
 
 		private bool OnEnemyEnable(GameObject obj, bool isdead) {
 			if (!isdead) {
+				//Log("Updating Enemy?" + obj.name);
 				Enemy.EnemyHealth.HandleEnemy(obj);
 			}
 			

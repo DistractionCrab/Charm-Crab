@@ -24,11 +24,11 @@ namespace CharmCrab.Enemy {
 		public void Update() {
 			if (this.origHp >= Enemy.EnemyHealth.SuperBossHealthThreshold) {
 				foreach (var d in this.GetComponentsInChildren<DamageHero>()) {
-					d.damageDealt = Enemy.EnemyHealth.SuperBossDamage;
+					d.damageDealt = d.damageDealt == 0 ? 0 : Enemy.EnemyHealth.SuperBossDamage;
 				}
 			} else if (this.origHp >= Enemy.EnemyHealth.BossHealthThreshold) {
 				foreach (var d in this.GetComponentsInChildren<DamageHero>()) {
-					d.damageDealt = Enemy.EnemyHealth.BossDamage;
+					d.damageDealt = d.damageDealt == 0 ? 0 : Enemy.EnemyHealth.BossDamage;
 				}
 			}
 		}

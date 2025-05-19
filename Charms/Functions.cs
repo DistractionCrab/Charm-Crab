@@ -24,17 +24,24 @@ namespace CharmCrab {
 
 			public void Update() {
 				var a = new List<GameObject>();
-				foreach (var k in hit.Keys) {
+                Dictionary<GameObject, float> new_hit = new Dictionary<GameObject, float>();
+
+                foreach (var k in hit.Keys) {
 					var t = Time.deltaTime + hit[k];
+
 					if (t >= this.cooldown) {
 						a.Add(k);
 					} else {
-						hit[k] = t;
+						new_hit.Add(k, t);
 					}
 				}
 
 				foreach (var k in a) {
 					hit.Remove(k);
+				}
+
+				foreach (var value in new_hit) {
+					hit[value.Key] = value.Value;
 				}
 			}
 

@@ -12,6 +12,7 @@ using HutongGames.PlayMaker;
 using SFCore;
 using System.Reflection;
 using CharmCrab.Enemy;
+using SFCore.Utils;
 
 namespace CharmCrab.Charms {
 	class CharmEffects: MonoBehaviour {
@@ -243,13 +244,14 @@ namespace CharmCrab.Charms {
 			if (dmg == 0) {
 				return 0;
 			}
-			this.pride.TakeDamage(dmg);
+			
 			dmg = this.steady.TakeDamage(ref hazard, dmg);
 			dmg = this.stalwart.TakeDamage(ref hazard, dmg);
+            this.pride.TakeDamage(dmg);
 
-			//Modding.Logger.Log("pre-dmg = " + dmg);
+            //Modding.Logger.Log("pre-dmg = " + dmg);
 
-			if (BaldurShell.Active()) {
+            if (BaldurShell.Active()) {
 				dmg = 0;
 			}
 
@@ -264,17 +266,35 @@ namespace CharmCrab.Charms {
 
 		public GameObject UpdateSpells(GameObject obj) {
 			if (obj.name.Contains("Spell Fluke")) {
-				var ctrl = obj.GetComponent<SpellFluke>();
-				if (ctrl != null) {
-					// Need to use reflection to update private damage variable for fluke objects;
-					
-					ctrl.damager.OnTriggerEntered += delegate(Collider2D collider, GameObject sender) {
-						this.flukes.Hit(collider.gameObject);
-					};
-					FieldInfo fi = ctrl.GetType().GetField("damage", BindingFlags.NonPublic | BindingFlags.Instance);
+				var ctrl = obj.GetComponent<SpellFluke>();                
+
+                if (ctrl != null) {
+                    // Need to use reflection to update private damage variable for fluke objects;					
+                    ctrl.damager.OnTriggerEntered += delegate (Collider2D collider, GameObject sender) {
+                        this.flukes.Hit(collider.gameObject);
+                    };
+
+                    FieldInfo fi = ctrl.GetType().GetField("damage", BindingFlags.NonPublic | BindingFlags.Instance);
 					fi.SetValue(ctrl, this.ComputeDamage(DamageType.Flukes));
 				} else {
-					Modding.Logger.Log("Found Non-Fluke to update with Fluke Details.");
+					var FSM = obj.GetComponent<PlayMakerFSM>();
+
+					if (FSM != null) {
+						var Damager = SFCore.Utils.FsmUtil.GetFsmGameObjectVariable(FSM, "Damager");
+
+						if (Damager == null) {
+                            
+                        } else {
+							var DamagerObject = Damager.RawValue as GameObject;
+
+							var Collider = DamagerObject.GetComponent<Collider2D>();
+
+							if (Collider != null) {
+								
+                            } else {
+                            }
+						}
+					}
 				}
 			}
 
@@ -286,8 +306,8 @@ namespace CharmCrab.Charms {
 			
 			if (obj.name == "Hitbox") {
 				var fsm = FSMUtility.LocateFSM(obj, "Send Event");
-				var state = FsmUtil.GetState(fsm, "Send Event");
-				FsmUtil.AddMethod(state, this.dreamWielder.DreamWielderAction);
+				var state = SFCore.Utils.FsmUtil.GetState(fsm, "Send Event");
+                SFCore.Utils.FsmUtil.AddMethod(state, this.dreamWielder.DreamWielderAction);
 			}
 
 			// Possible names Fireball2 Sprial(Clone) and Fireball(Clone).

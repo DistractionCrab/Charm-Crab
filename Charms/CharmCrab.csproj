@@ -56,7 +56,7 @@
     <Reference Include="Vasi">
       <HintPath>$(HOLLOW_KNIGHT_ROOT)\hollow_knight_Data\Managed\Mods\Vasi\Vasi.dll</HintPath>
     </Reference>
-	<EmbeddedResource Include="Resources\assets" />
+	<EmbeddedResource Include="Resources\assets"/>
   </ItemGroup>
 
 </Project>
